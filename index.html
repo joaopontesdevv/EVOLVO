@@ -680,11 +680,17 @@
   /* ── RESPONSIVE ── */
   @media (max-width: 900px) {
     .grid-4 { grid-template-columns: repeat(2, 1fr); }
-    .grid-3 { grid-template-columns: repeat(2, 1fr); }
+    .grid-3 { grid-template-columns: 1fr; }
+    .grid-2 { grid-template-columns: 1fr; }
+    .timer-grid { grid-template-columns: 1fr !important; }
     .sidebar { display: none; }
     .sidebar.open { display: flex; position: fixed; top: 0; bottom: 0; left: 0; z-index: 100; width: var(--sidebar-w); }
     .menu-btn { display: flex !important; }
-    .content { padding: 16px; }
+    .content { padding: 14px; }
+    .topbar { padding: 0 16px; }
+    .timer-display { font-size: 40px; padding: 14px 0; letter-spacing: -2px; }
+    .timer-controls { flex-wrap: wrap; }
+    .mb-20 { margin-bottom: 14px; }
   }
   .sidebar-overlay {
     display: none;
@@ -855,7 +861,7 @@
         <!-- Timer Card -->
         <div class="card mb-20">
           <div class="section-title">Cronômetro de Estudo <span class="section-title-line"></span></div>
-          <div class="grid-2">
+          <div class="grid-2 timer-grid">
             <div>
               <div class="form-group">
                 <label class="form-label">Categoria / Matéria</label>
