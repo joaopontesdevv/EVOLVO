@@ -1957,6 +1957,10 @@ function updateSidebarStreak() {
 renderCategorias();
 renderDashboard();
 updateSidebarStreak();
+// Fechar sidebar ao clicar fora no mobile
+document.querySelector('.main').addEventListener('click', function() {
+  document.getElementById('sidebar').classList.remove('open');
+});
 </script>
 </body>
 </html>
