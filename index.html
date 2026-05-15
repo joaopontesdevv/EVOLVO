@@ -682,10 +682,19 @@
     .grid-4 { grid-template-columns: repeat(2, 1fr); }
     .grid-3 { grid-template-columns: repeat(2, 1fr); }
     .sidebar { display: none; }
-    .sidebar.open { display: flex; position: fixed; inset-y: 0; left: 0; z-index: 100; }
+    .sidebar.open { display: flex; position: fixed; top: 0; bottom: 0; left: 0; z-index: 100; width: var(--sidebar-w); }
     .menu-btn { display: flex !important; }
     .content { padding: 16px; }
   }
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 99;
+    backdrop-filter: blur(2px);
+  }
+  .sidebar-overlay.open { display: block; }
 
   .menu-btn { display: none; }
 
@@ -756,11 +765,14 @@
     </div>
   </aside>
 
+  <!-- Overlay mobile -->
+  <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+
   <!-- ═══ MAIN ═══ -->
   <div class="main">
     <!-- Topbar -->
     <div class="topbar">
-      <button class="btn btn-ghost menu-btn" onclick="document.getElementById('sidebar').classList.toggle('open')" style="padding:7px 10px">☰</button>
+      <button class="btn btn-ghost menu-btn" onclick="toggleSidebar()" style="padding:7px 10px">☰</button>
       <div>
         <div class="page-title" id="topbar-title">Dashboard</div>
         <div class="page-subtitle" id="topbar-sub">Sua evolução em tempo real</div>
@@ -1254,10 +1266,7 @@
     </div>
   </div>
 </div>
-// Fechar sidebar ao clicar fora no mobile
-document.querySelector('.main').addEventListener('click', function() {
-  document.getElementById('sidebar').classList.remove('open');
-});
+
 <script>
 // ═══════════════════════════════════════════════════════
 //  EVOLVO — State
@@ -1299,6 +1308,7 @@ function goTo(page, el) {
   const [title, sub] = pageTitles[page];
   document.getElementById('topbar-title').textContent = title;
   document.getElementById('topbar-sub').textContent = sub;
+  closeSidebar();
   renderPage(page);
 }
 
@@ -1954,6 +1964,25 @@ function notify(msg) {
 function updateSidebarStreak() {
   recalcStreak();
   document.getElementById('sb-streak').textContent = state.streak||0;
+}
+
+// ═══════ MOBILE SIDEBAR ═══════
+function toggleSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebar-overlay');
+  const isOpen = sidebar.classList.contains('open');
+  if (isOpen) {
+    sidebar.classList.remove('open');
+    overlay.classList.remove('open');
+  } else {
+    sidebar.classList.add('open');
+    overlay.classList.add('open');
+  }
+}
+
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebar-overlay').classList.remove('open');
 }
 
 // ═══════ INIT ═══════
